@@ -5,6 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,7 +22,7 @@ public class AccountManagementSteps {
         //Maximize Browser Window
         driver.manage().window().maximize();
         //Launch Application
-        driver.get("https://magento2-demo.magebit.com/");
+        driver.get("https://demo-m2.bird.eu/");
         //Click On Create An Account
         driver.findElement(By.linkText("Create an Account")).click();
 
@@ -44,6 +45,10 @@ public class AccountManagementSteps {
 
     @Then("my account page is displayed")
     public void myAccountPageIsDisplayed() {
+        String expectedPageTitle = "My Account";
+        String actualPageTitle = driver.getTitle();
+        Assert.assertEquals(expectedPageTitle,actualPageTitle);
+
     }
 
     @Given("I am on customer login page")
@@ -58,8 +63,6 @@ public class AccountManagementSteps {
         driver.get("https://magento2-demo.magebit.com/");
         //Click On Sign In
         driver.findElement(By.linkText("Sign In")).click();
-
-
 
     }
 
@@ -76,5 +79,17 @@ public class AccountManagementSteps {
 
     @Then("Account page is displayed")
     public void accountPageIsDisplayed() {
+    }
+
+
+    @Then("An error message should be displayed that email is already in use")
+    public void anErrorMessageShouldBeDisplayedThatEmailIsAlreadyInUse() {
+        String expectedAccountError = "There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.";
+        String actualAccountError = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[2]/div[2]/div/div/div")).getText();
+        Assert.assertEquals(expectedAccountError,actualAccountError);
+    }
+
+    @Then("An error message should be displayed that account sign in is incorrect")
+    public void anErrorMessageShouldBeDisplayedThatAccountSignInIsIncorrect() {
     }
 }
