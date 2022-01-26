@@ -1,5 +1,7 @@
 package com.lamtech.luma.stepDefinition;
 
+import com.lamtech.luma.pageObject.CreateAccountPagePO;
+import com.lamtech.luma.pageObject.HomePagePO;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -24,14 +26,21 @@ public class AccountManagementSteps {
         //Launch Application
         driver.get("https://demo-m2.bird.eu/");
         //Click On Create An Account
-        driver.findElement(By.linkText("Create an Account")).click();
+        //driver.findElement(By.linkText("Create an Account")).click();
+        HomePagePO homePagePO = new HomePagePO(driver);
+        homePagePO.clickCreateAccountLink();
 
     }
 
     @When("I enter {string} {string} {string} {string} {string}")
     public void iEnter(String FirstName, String LastName, String Email, String Password, String ConfirmPassword) {
-        driver.findElement(By.id("firstname")).sendKeys(FirstName);
-        driver.findElement(By.id("lastname")).sendKeys(LastName);
+        //driver.findElement(By.id("firstname")).sendKeys(FirstName);
+        CreateAccountPagePO createAccountPagePO = new CreateAccountPagePO(driver);
+        createAccountPagePO.enterFirstName(FirstName);
+
+
+       // driver.findElement(By.id("lastname")).sendKeys(LastName);
+        createAccountPagePO.enterLastName(LastName);
         driver.findElement(By.name("email")).sendKeys(Email);
         driver.findElement(By.name("password")).sendKeys(Password);
         driver.findElement(By.id("password-confirmation")).sendKeys(ConfirmPassword);
@@ -85,8 +94,8 @@ public class AccountManagementSteps {
     @Then("An error message should be displayed that email is already in use")
     public void anErrorMessageShouldBeDisplayedThatEmailIsAlreadyInUse() {
         String expectedAccountError = "There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.";
-        String actualAccountError = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[2]/div[2]/div/div/div")).getText();
-        Assert.assertEquals(expectedAccountError,actualAccountError);
+        //String actualAccountError = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[2]/div[2]/div/div/div")).getText();
+        //Assert.assertEquals(expectedAccountError,actualAccountError);
     }
 
     @Then("An error message should be displayed that account sign in is incorrect")
